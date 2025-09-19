@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 
 export default function Navbar() {
-  // ✅ helper to close offcanvas manually
   const closeOffcanvas = () => {
     const offcanvas = document.getElementById("mobileSidebar");
     if (offcanvas) {
@@ -20,22 +19,35 @@ export default function Navbar() {
     }
   };
 
+  const navItems = [
+    { name: "Jobs", path: "/", icon: Briefcase },
+    { name: "Internships", path: "/internships", icon: GraduationCap },
+    { name: "Resume ATS", path: "/resume-checker", icon: FileSearch },
+    { name: "About", path: "/about", icon: Info },
+  ];
+
+  const extraItems = [
+    { name: "Contact", path: "/contact", icon: Mail },
+    { name: "Privacy", path: "/privacy", icon: ShieldCheck },
+    { name: "Terms", path: "/terms", icon: FileText },
+  ];
+
   return (
     <nav
       className="navbar navbar-light shadow-sm sticky-top"
-      style={{ backgroundColor: "#fcf8f8d5" }}
+      style={{ backgroundColor: "#ffffff" }}
     >
       <div className="container">
-        {/* Logo / Brand */}
+        {/* Logo */}
         <Link
           className="navbar-brand fw-bold text-dark"
           to="/"
-          style={{ fontSize: "1.7rem" }}
+          style={{ fontSize: "1.8rem" }}
         >
           <span className="text-primary">Freshers</span>Job
         </Link>
 
-        {/* Mobile Toggle (Sidebar) */}
+        {/* Mobile Toggle */}
         <button
           className="btn btn-outline-primary d-lg-none"
           type="button"
@@ -46,32 +58,24 @@ export default function Navbar() {
           ☰
         </button>
 
-        {/* Desktop Nav Links */}
-        <ul className="navbar-nav ms-auto d-none d-lg-flex flex-row gap-4">
-          <li className="nav-item">
-            <NavLink end className="nav-link fw-semibold" style={{ fontSize: "1.1rem" }} to="/">
-              Jobs
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link fw-semibold" style={{ fontSize: "1.1rem" }} to="/internships">
-              Internships
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link fw-semibold" style={{ fontSize: "1.1rem" }} to="/resume-checker">
-              Resume ATS
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link fw-semibold" style={{ fontSize: "1.1rem" }} to="/about">
-              About
-            </NavLink>
-          </li>
+        {/* Desktop Links */}
+        <ul className="navbar-nav ms-auto d-none d-lg-flex flex-row gap-4 align-items-center">
+          {navItems.map((item, idx) => (
+            <li key={idx} className="nav-item">
+              <NavLink
+                end
+                to={item.path}
+                className="custom-link d-flex align-items-center gap-1"
+              >
+                <item.icon size={18} className="text-primary" />
+                {item.name}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </div>
 
-      {/* Offcanvas Sidebar for Mobile */}
+      {/* Mobile Offcanvas */}
       <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
@@ -80,95 +84,57 @@ export default function Navbar() {
         style={{ width: "260px" }}
       >
         <div className="offcanvas-header border-bottom">
-          <h5 className="offcanvas-title fw-bold text-primary" id="mobileSidebarLabel">
+          <h5
+            className="offcanvas-title fw-bold text-primary"
+            id="mobileSidebarLabel"
+          >
             JobBoard Menu
           </h5>
           <button
             type="button"
-            className="btn-close"
+            className="btn btn-close btn-close-white"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >
-            <X size={20} />
+            {/* Use X icon inside button */}
+            <X size={20} className="text-dark" />
           </button>
         </div>
         <div className="offcanvas-body p-0">
           <ul className="list-group list-group-flush">
-            <li className="list-group-item">
-              <NavLink
-                end
-                to="/"
-                onClick={closeOffcanvas}
-                className="d-flex align-items-center gap-2 text-decoration-none text-dark"
-              >
-                <Briefcase size={18} className="text-primary" />
-                <span className="fw-semibold">Jobs</span>
-              </NavLink>
-            </li>
-            <li className="list-group-item">
-              <NavLink
-                to="/internships"
-                onClick={closeOffcanvas}
-                className="d-flex align-items-center gap-2 text-decoration-none text-dark"
-              >
-                <GraduationCap size={18} className="text-success" />
-                <span className="fw-semibold">Internships</span>
-              </NavLink>
-            </li>
-            
-            <li className="list-group-item">
-              <NavLink
-                to="/resume-checker"
-                onClick={closeOffcanvas}
-                className="d-flex align-items-center gap-2 text-decoration-none text-dark"
-              >
-                <FileSearch size={18} className="text-primary" />
-                <span className="fw-semibold">Resume ATS</span>
-              </NavLink>
-            </li>
-            <li className="list-group-item">
-              <NavLink
-                to="/about"
-                onClick={closeOffcanvas}
-                className="d-flex align-items-center gap-2 text-decoration-none text-dark"
-              >
-                <Info size={18} className="text-info" />
-                <span className="fw-semibold">About</span>
-              </NavLink>
-            </li>
-            <li className="list-group-item">
-              <NavLink
-                to="/contact"
-                onClick={closeOffcanvas}
-                className="d-flex align-items-center gap-2 text-decoration-none text-dark"
-              >
-                <Mail size={18} className="text-warning" />
-                <span className="fw-semibold">Contact</span>
-              </NavLink>
-            </li>
-            <li className="list-group-item">
-              <NavLink
-                to="/privacy"
-                onClick={closeOffcanvas}
-                className="d-flex align-items-center gap-2 text-decoration-none text-dark"
-              >
-                <ShieldCheck size={18} className="text-success" />
-                <span className="fw-semibold">Privacy</span>
-              </NavLink>
-            </li>
-            <li className="list-group-item">
-              <NavLink
-                to="/terms"
-                onClick={closeOffcanvas}
-                className="d-flex align-items-center gap-2 text-decoration-none text-dark"
-              >
-                <FileText size={18} className="text-secondary" />
-                <span className="fw-semibold">Terms</span>
-              </NavLink>
-            </li>
+            {[...navItems, ...extraItems].map((item, idx) => (
+              <li key={idx} className="list-group-item">
+                <NavLink
+                  to={item.path}
+                  onClick={closeOffcanvas}
+                  className="d-flex align-items-center gap-2 text-decoration-none text-dark fw-semibold custom-link"
+                >
+                  <item.icon size={18} className="text-primary" />
+                  {item.name}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
+
+      {/* Custom CSS */}
+      <style>{`
+        .custom-link {
+          font-size: 1.1rem;
+          font-weight: 500;
+          color: #333 !important;
+          transition: all 0.3s ease;
+        }
+        .custom-link:hover {
+          color: #0d6efd !important;
+          transform: scale(1.1);
+        }
+        .custom-link.active {
+          color: #0d6efd !important;
+          font-weight: 600;
+        }
+      `}</style>
     </nav>
   );
 }

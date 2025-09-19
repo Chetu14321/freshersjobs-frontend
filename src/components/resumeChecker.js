@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { CheckCircle, AlertCircle, Lightbulb, Gauge } from "lucide-react";
+import { CheckCircle, AlertCircle, Lightbulb, Gauge, Loader2 } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ResumeChecker.css";
 
@@ -48,16 +48,21 @@ function ResumeChecker() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="text-center mb-4">
+    <div className="container mt-5 position-relative">
+      <div className="text-center mb-5">
         <h2 className="fw-bold display-6">📄 ATS Resume Checker</h2>
         <p className="text-muted">Analyze your resume for ATS compatibility</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="card p-4 shadow-lg border-0">
+      <form onSubmit={handleSubmit} className="card p-4 shadow-lg border-0 mb-4">
         <div className="mb-3">
           <label className="form-label fw-semibold">Upload Resume (PDF)</label>
-          <input type="file" accept="application/pdf" className="form-control" onChange={handleFileChange} />
+          <input
+            type="file"
+            accept="application/pdf"
+            className="form-control"
+            onChange={handleFileChange}
+          />
         </div>
 
         <div className="mb-3">
@@ -71,8 +76,12 @@ function ResumeChecker() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100 py-2 fw-bold" disabled={loading}>
-          {loading ? "Analyzing..." : "Check Resume"}
+        <button
+          type="submit"
+          className="btn btn-primary w-100 py-2 fw-bold d-flex justify-content-center align-items-center"
+          disabled={loading}
+        >
+          Check Resume
         </button>
       </form>
 
@@ -80,17 +89,14 @@ function ResumeChecker() {
 
       {!loading && result && (
         <div className="mt-4 card p-4 shadow-lg border-0 fade-in">
-          {/* ATS Score */}
-          <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
+          <h4 className="fw-bold mb-2 d-flex align-items-center gap-2">
             <Gauge size={22} className="text-primary" /> ATS Score
           </h4>
           <p className="fw-semibold fs-5">{result.atsScore} / 100</p>
 
-          {/* ATS Friendliness */}
-          <h4 className="fw-bold mb-3">ATS Friendliness</h4>
+          <h4 className="fw-bold mt-3">ATS Friendliness</h4>
           <p className="fw-semibold">{result.atsFriendliness}</p>
 
-          {/* Strengths */}
           {result.strengths.length > 0 && (
             <div className="mt-3">
               <h5 className="fw-bold d-flex align-items-center gap-2">
@@ -98,15 +104,12 @@ function ResumeChecker() {
               </h5>
               <ul className="list-group list-group-flush">
                 {result.strengths.map((s, idx) => (
-                  <li key={idx} className="list-group-item text-success">
-                    {s}
-                  </li>
+                  <li key={idx} className="list-group-item text-success">{s}</li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Weaknesses */}
           {result.weaknesses.length > 0 && (
             <div className="mt-3">
               <h5 className="fw-bold d-flex align-items-center gap-2">
@@ -114,15 +117,12 @@ function ResumeChecker() {
               </h5>
               <ul className="list-group list-group-flush">
                 {result.weaknesses.map((w, idx) => (
-                  <li key={idx} className="list-group-item text-danger">
-                    {w}
-                  </li>
+                  <li key={idx} className="list-group-item text-danger">{w}</li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Recommendations */}
           {result.recommendations.length > 0 && (
             <div className="mt-3">
               <h5 className="fw-bold d-flex align-items-center gap-2">
@@ -130,15 +130,41 @@ function ResumeChecker() {
               </h5>
               <ul className="list-group list-group-flush">
                 {result.recommendations.map((r, idx) => (
-                  <li key={idx} className="list-group-item text-warning">
-                    💡 {r}
-                  </li>
+                  <li key={idx} className="list-group-item text-warning">💡 {r}</li>
                 ))}
               </ul>
             </div>
           )}
         </div>
       )}
+
+      {/* Modal Loader */}
+      {loading && (
+        <div className="loading-overlay d-flex justify-content-center align-items-center">
+          <div className="text-center bg-white p-4 rounded shadow-lg">
+            <Loader2 className="spin mb-2" size={40} />
+            <p className="fw-semibold mb-0">Analyzing your resume...</p>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        .fade-in { animation: fadeIn 0.6s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .spin { animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.35);
+          z-index: 9999;
+        }
+      `}</style>
     </div>
   );
 }

@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import AdSlot from "./AdSlot";
 
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
-  const [showSubscribe, setShowSubscribe] = useState(false);
-  const [email, setEmail] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true); // 🔹 Loader state
+  const [loading, setLoading] = useState(true);
   const jobsPerPage = 6;
 
   useEffect(() => {
@@ -22,32 +19,12 @@ export default function JobList() {
         setJobs(onlyJobs);
       })
       .catch((err) => console.error("Error fetching jobs:", err))
-      .finally(() => setLoading(false)); // ✅ loader ends only after fetch
-
-    const subscribed = localStorage.getItem("subscribed");
-    if (!subscribed) setShowSubscribe(true);
+      .finally(() => setLoading(false));
   }, []);
 
-  const handleSubscribe = async () => {
-    if (!email) return alert("Please enter your email");
-    try {
-      const res = await axios.post("/api/subscribe", { email });
-      if (res.status === 200) {
-        alert(res.data.message || "Subscribed successfully!");
-        localStorage.setItem("subscribed", "true");
-        setShowSubscribe(false);
-      }
-    } catch (err) {
-      console.error("Subscribe error:", err);
-      alert(err.response?.data?.error || "Subscription failed!");
-    }
-  };
-
-  const handleCloseSubscribe = () => setShowSubscribe(false);
-
   const filteredJobs = jobs.filter((job) => {
-    const title = job?.title ? job.title.toLowerCase() : "";
-    const company = job?.company ? job.company.toLowerCase() : "";
+    const title = job?.title?.toLowerCase() || "";
+    const company = job?.company?.toLowerCase() || "";
     const search = searchTerm.toLowerCase();
     const roleTerm = roleFilter.toLowerCase();
     return (
@@ -56,7 +33,6 @@ export default function JobList() {
     );
   });
 
-  // Pagination
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
@@ -64,102 +40,141 @@ export default function JobList() {
 
   return (
     <div
-      className="pt-3 pb-5"
-      style={{ backgroundColor: "#f7f9f4ff", minHeight: "100vh" }}
+      className="pt-2 pb-5"
+      style={{ backgroundColor: "#fcfbfbff", minHeight: "100vh" }}
     >
       <div className="container">
-        <h5 className="mb-5 text-center fw-bold display-6 text-dark">
-          🚀 Latest Job Opportunities
-        </h5>
+                <h2
+          className="text-center mb-5 fw-bold display-6 title-animate"
+          style={{ color: "#2c3e50" }}
+        >
+           Latest Job Opportunities
+        </h2>
 
-        {/* 🔹 Loader (initial full-screen) */}
-        {loading && jobs.length === 0 ? (
+
+        {/* Search + Filter */}
+        <div className="row mb-4">
+          <div className="col-md-6 mb-2">
+            <input
+              type="text"
+              className="form-control rounded-pill"
+              placeholder="🔍 Search jobs by title or company..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+          <div className="col-md-6 mb-2">
+            <select
+              className="form-select rounded-pill"
+              value={roleFilter}
+              onChange={(e) => {
+                setRoleFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              <option value="all">All Roles</option>
+              <option value="frontend">Frontend Developer</option>
+              <option value="backend">Backend Developer</option>
+              <option value="fullstack">Full Stack Developer</option>
+              <option value="designer">Designer</option>
+              <option value="mernstack">MERN Stack Developer</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Loader */}
+        {loading ? (
           <div
             className="d-flex justify-content-center align-items-center"
-            style={{ height: "50vh" }}
+            style={{ height: "40vh" }}
           >
-            <div className="loader"></div>
+            <div className="spinner-border text-secondary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
           </div>
+        ) : currentJobs.length === 0 ? (
+          <p className="text-center text-muted mt-5">No jobs found.</p>
         ) : (
           <>
-            {/* 🔹 Search + Role Filter */}
-            <div className="row mb-4">
-              <div className="col-md-6 mb-2">
-                <input
-                  type="text"
-                  className="form-control rounded-pill"
-                  placeholder="🔍 Search jobs by title or company..."
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                />
-              </div>
-              <div className="col-md-6 mb-2">
-                <select
-                  className="form-select rounded-pill"
-                  value={roleFilter}
-                  onChange={(e) => {
-                    setRoleFilter(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                >
-                  <option value="all">All Roles</option>
-                  <option value="frontend">Frontend Developer</option>
-                  <option value="backend">Backend Developer</option>
-                  <option value="fullstack">Full Stack Developer</option>
-                  <option value="designer">Designer</option>
-                  <option value="mernstack">MERN Stack Developer</option>
-                </select>
-              </div>
-            </div>
-
-            {/* 🔹 Job Cards */}
+            {/* Job Cards */}
             <div className="row g-4">
-              {loading || currentJobs.length === 0 ? (
-                <div className="d-flex justify-content-center align-items-center w-100" style={{ height: "30vh" }}>
-                  <div className="loader"></div>
-                </div>
-              ) : (
-                currentJobs.map((job) => (
-                  <div key={job._id} className="col-md-6 col-lg-4">
-                    <div className="card h-100 shadow-sm border-0 rounded-4">
-                      <div className="card-body d-flex flex-column">
-                        <h5 className="card-title fw-bold text-dark">
-                          {job.title}
-                        </h5>
-                        <h6 className="card-subtitle mb-2 text-muted">
-                          {job.company}
-                        </h6>
-                        <p className="mb-2">
-                          <span className="badge bg-primary">
-                            {job.location}
-                          </span>
-                          {job.isWFH && (
-                            <span className="badge bg-success ms-2">Remote</span>
-                          )}
-                        </p>
-                        <Link
-                          to={`/job/${job._id}`}
-                          className="btn btn-dark rounded-pill mt-auto"
+              {currentJobs.map((job) => (
+                <div key={job._id} className="col-md-6 col-lg-4">
+                  <div
+                    className="card h-100 border-0 rounded-4 job-card"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.15)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
+                      transition:
+                        "transform 0.3s ease, box-shadow 0.3s ease",
+                    }}
+                  >
+                    <div className="card-body d-flex flex-column">
+                      <h5
+                        className="card-title fw-bold"
+                        style={{ color: "#34495e" }}
+                      >
+                        {job.title}
+                      </h5>
+                      <h6 className="card-subtitle mb-2 text-muted">
+                        {job.company}
+                      </h6>
+
+                      <div className="mb-3">
+                        <span
+                          className="badge"
+                          style={{
+                            backgroundColor: "#2980b9",
+                            color: "#fff",
+                          }}
                         >
-                          View Details
-                        </Link>
+                          {job.location}
+                        </span>
+                        {job.isWFH && (
+                          <span
+                            className="badge ms-2"
+                            style={{
+                              backgroundColor: "#27ae60",
+                              color: "#fff",
+                            }}
+                          >
+                            Remote
+                          </span>
+                        )}
                       </div>
-                      <div className="card-footer text-muted small bg-light">
-                        📅 {new Date(job.postedAt).toLocaleDateString()}
-                      </div>
+
+                      <Link
+                        to={`/job/${job._id}`}
+                        className="btn mt-auto"
+                        style={{
+                          backgroundColor: "#2c3e50",
+                          color: "#ffffff",
+                          borderRadius: "50px",
+                        }}
+                      >
+                        View Details
+                      </Link>
+                    </div>
+                    <div
+                      className="card-footer text-muted small"
+                      style={{ backgroundColor: "#ecf0f1" }}
+                    >
+                      📅 {new Date(job.postedAt).toLocaleDateString()}
                     </div>
                   </div>
-                ))
-              )}
+                </div>
+              ))}
             </div>
 
-            {/* 🔹 Pagination Controls */}
-            {!loading && totalPages > 1 && (
-              <div className="d-flex justify-content-center mt-4">
-                <ul className="pagination custom-pagination">
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <nav className="d-flex justify-content-center mt-4">
+                <ul className="pagination">
                   {Array.from({ length: totalPages }, (_, i) => (
                     <li
                       key={i + 1}
@@ -176,11 +191,19 @@ export default function JobList() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </nav>
             )}
           </>
         )}
       </div>
+
+      {/* Hover effect CSS */}
+      <style>{`
+        .job-card:hover {
+          transform: scale(0.97); /* Slight zoom out */
+          box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+        }
+      `}</style>
     </div>
   );
 }
