@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import AdSlot from "./AdSlot";
+// import AdSlot from "./AdSlot";
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -99,11 +99,11 @@ axios
               📅 Posted on {new Date(job.postedAt).toLocaleDateString()}
             </p>
 
-            {/* Top Ad Slot */}
+            {/* Top Ad Slot
             <div className="p-3 bg-light rounded shadow-sm mb-4">
               <h5 className="fw-bold mb-3">Promotions</h5>
               <AdSlot height={120} width={728} />
-            </div>
+            </div> */}
 
             {/* Job Details Table */}
             <h5 className="fw-semibold mb-3">Job Details</h5>
@@ -234,11 +234,11 @@ axios
           </div>
         )}
 
-        {/* Bottom Ad Slot */}
+        {/* Bottom Ad Slot
         <div className="p-3 bg-light rounded shadow-sm mt-4">
           <h5 className="fw-bold mb-3">Promotions</h5>
           <AdSlot height={120} width={300} />
-        </div>
+        </div> */}
       </div>
 
       {/* Animations CSS */}

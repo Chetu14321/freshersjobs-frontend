@@ -33,24 +33,35 @@ export default function JobList() {
     );
   });
 
+  // Pagination Logic
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div
       className="pt-2 pb-5"
-      style={{ backgroundColor: "#fcfbfbff", minHeight: "100vh" }}
+      style={{
+        backgroundColor: "#fcfbfbff",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "auto",
+        height:"100%"
+      }}
     >
-      <div className="container">
-                <h2
+      <div className="container flex-grow-1">
+        <h2
           className="text-center mb-5 fw-bold display-6 title-animate"
           style={{ color: "#2c3e50" }}
         >
-           Latest Job Opportunities
+          Latest Job Opportunities
         </h2>
-
 
         {/* Search + Filter */}
         <div className="row mb-4">
@@ -62,7 +73,7 @@ export default function JobList() {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1);
+                setCurrentPage(1); // Reset to page 1 when search term changes
               }}
             />
           </div>
@@ -72,7 +83,7 @@ export default function JobList() {
               value={roleFilter}
               onChange={(e) => {
                 setRoleFilter(e.target.value);
-                setCurrentPage(1);
+                setCurrentPage(1); // Reset to page 1 when filter changes
               }}
             >
               <option value="all">All Roles</option>
@@ -175,6 +186,16 @@ export default function JobList() {
             {totalPages > 1 && (
               <nav className="d-flex justify-content-center mt-4">
                 <ul className="pagination">
+                  {currentPage > 1 && (
+                    <li className="page-item">
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
+                        Previous
+                      </button>
+                    </li>
+                  )}
                   {Array.from({ length: totalPages }, (_, i) => (
                     <li
                       key={i + 1}
@@ -184,12 +205,22 @@ export default function JobList() {
                     >
                       <button
                         className="page-link"
-                        onClick={() => setCurrentPage(i + 1)}
+                        onClick={() => handlePageChange(i + 1)}
                       >
                         {i + 1}
                       </button>
                     </li>
                   ))}
+                  {currentPage < totalPages && (
+                    <li className="page-item">
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
+                        Next
+                      </button>
+                    </li>
+                  )}
                 </ul>
               </nav>
             )}

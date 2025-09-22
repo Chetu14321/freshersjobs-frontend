@@ -5,7 +5,7 @@ import JobDetails from "./components/JobDetails";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
 import Intership from "./components/internship";
-import AdBanner from "./components/Addbanner";
+// import AdBanner from "./components/Addbanner";
 
 import About from "./pages/About";
 import Contact from "./pages/contact";
@@ -47,7 +47,7 @@ function App() {
           </div>
         </div>
 
-        <AdBanner />
+        {/* <AdBanner /> */}
         <Footer />
 
         {/* ⬇️ Floating Chat Widget */}

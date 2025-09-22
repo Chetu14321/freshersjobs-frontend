@@ -2,7 +2,6 @@
   "name": "jobboard-frontend",
   "version": "0.1.0",
   "private": true,
- 
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
@@ -10,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
+    "framer-motion": "^12.23.18",
     "lucide-react": "^0.540.0",
     "proxy": "^2.2.0",
     "react": "^19.1.1",
