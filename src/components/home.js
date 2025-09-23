@@ -87,7 +87,7 @@ const Home = () => {
           className="text-center text-secondary mx-auto"
           style={{ maxWidth: "700px" }}
         >
-          FreshersJobs is a dedicated platform designed to help entry-level
+          "FreshersJobs" is a dedicated platform designed to help entry-level
           graduates and freshers kickstart their professional careers. We
           provide timely updates on job openings, internships, walk-in drives,
           and career development tools such as resume ATS optimization. Our
