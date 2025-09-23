@@ -13,6 +13,8 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/terms";
 import ResumeChecker from "./components/resumeChecker"; 
 import { ThemeProvider } from "./components/ThemeContex";
+import Home from "./components/home"; // or "./pages/Home" based on where you placed it
+
 
 
 import ChatWidget from "./components/ChatWidget";  // ⬅️ import this
@@ -27,7 +29,8 @@ function App() {
           <div className="row">
             <div className="col-lg-8 col-md-12">
               <Routes>
-                <Route path="/" element={<JobList />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/jobs" element={<JobList />} />
                 <Route path="/job/:id" element={<JobDetails />} />
                 <Route path="/internships" element={<Intership />} />
                 <Route path="/locations" element={<h2>Locations Coming Soon</h2>} />

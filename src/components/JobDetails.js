@@ -18,19 +18,15 @@ export default function JobDetails() {
       .finally(() => setLoading(false));
 
     // Fetch related jobs
-    // Fetch related jobs
-axios
-  .get(`${process.env.REACT_APP_API_URL}/api/jobs`)
-  .then((res) => {
-    const jobs = res.data
-      .filter(
-        (j) => j._id !== id && j.type === "job" // exclude current
-      )
-      .slice(0, 3); // show only 3 related jobs
-    setRelatedJobs(jobs);
-  })
-  .catch((err) => console.error(err));
-
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/jobs`)
+      .then((res) => {
+        const jobs = res.data
+          .filter((j) => j._id !== id && j.type === "job") // exclude current job
+          .slice(0, 3); // show only 3 related jobs
+        setRelatedJobs(jobs);
+      })
+      .catch((err) => console.error(err));
   }, [id]);
 
   if (loading || !job)
@@ -98,12 +94,6 @@ axios
             <p className="text-center text-secondary small mb-4">
               📅 Posted on {new Date(job.postedAt).toLocaleDateString()}
             </p>
-
-            {/* Top Ad Slot
-            <div className="p-3 bg-light rounded shadow-sm mb-4">
-              <h5 className="fw-bold mb-3">Promotions</h5>
-              <AdSlot height={120} width={728} />
-            </div> */}
 
             {/* Job Details Table */}
             <h5 className="fw-semibold mb-3">Job Details</h5>
@@ -190,7 +180,10 @@ axios
                     }}
                   >
                     <div className="card-body d-flex flex-column">
-                      <h5 className="card-title fw-bold" style={{ color: "#34495e" }}>
+                      <h5
+                        className="card-title fw-bold"
+                        style={{ color: "#34495e" }}
+                      >
                         {rJob.title}
                       </h5>
                       <h6 className="card-subtitle mb-2 text-muted">
@@ -224,7 +217,10 @@ axios
                         View Details
                       </Link>
                     </div>
-                    <div className="card-footer text-muted small" style={{ backgroundColor: "#ecf0f1" }}>
+                    <div
+                      className="card-footer text-muted small"
+                      style={{ backgroundColor: "#ecf0f1" }}
+                    >
                       📅 {new Date(rJob.postedAt).toLocaleDateString()}
                     </div>
                   </div>
@@ -233,12 +229,6 @@ axios
             </div>
           </div>
         )}
-
-        {/* Bottom Ad Slot
-        <div className="p-3 bg-light rounded shadow-sm mt-4">
-          <h5 className="fw-bold mb-3">Promotions</h5>
-          <AdSlot height={120} width={300} />
-        </div> */}
       </div>
 
       {/* Animations CSS */}

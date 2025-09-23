@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import {
+  Home,
   Briefcase,
   GraduationCap,
   Info,
@@ -19,13 +20,16 @@ export default function Navbar() {
     }
   };
 
+  // 🧭 Main nav items (shown on both desktop and mobile)
   const navItems = [
-    { name: "Jobs", path: "/", icon: Briefcase },
+    { name: "Home", path: "/", icon: Home },
+    { name: "Jobs", path: "/jobs", icon: Briefcase },
     { name: "Internships", path: "/internships", icon: GraduationCap },
     { name: "Resume ATS", path: "/resume-checker", icon: FileSearch },
     { name: "About", path: "/about", icon: Info },
   ];
 
+  // 📄 Extra links only shown in mobile offcanvas
   const extraItems = [
     { name: "Contact", path: "/contact", icon: Mail },
     { name: "Privacy", path: "/privacy", icon: ShieldCheck },
@@ -47,7 +51,7 @@ export default function Navbar() {
           <span className="text-primary">Freshers</span>Job
         </Link>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Toggle Button */}
         <button
           className="btn btn-outline-primary d-lg-none"
           type="button"
@@ -58,7 +62,7 @@ export default function Navbar() {
           ☰
         </button>
 
-        {/* Desktop Links */}
+        {/* Desktop Navigation */}
         <ul className="navbar-nav ms-auto d-none d-lg-flex flex-row gap-4 align-items-center">
           {navItems.map((item, idx) => (
             <li key={idx} className="nav-item">
@@ -67,7 +71,7 @@ export default function Navbar() {
                 to={item.path}
                 className="custom-link d-flex align-items-center gap-1"
               >
-                <item.icon size={18} className="text-primary" />
+                {item.icon && <item.icon size={18} className="text-primary" />}
                 {item.name}
               </NavLink>
             </li>
@@ -75,7 +79,7 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {/* Mobile Offcanvas */}
+      {/* Mobile Offcanvas Sidebar */}
       <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
@@ -96,7 +100,6 @@ export default function Navbar() {
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >
-            {/* Use X icon inside button */}
             <X size={20} className="text-dark" />
           </button>
         </div>
@@ -109,7 +112,7 @@ export default function Navbar() {
                   onClick={closeOffcanvas}
                   className="d-flex align-items-center gap-2 text-decoration-none text-dark fw-semibold custom-link"
                 >
-                  <item.icon size={18} className="text-primary" />
+                  {item.icon && <item.icon size={18} className="text-primary" />}
                   {item.name}
                 </NavLink>
               </li>

@@ -39,7 +39,6 @@ export default function JobList() {
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
-  // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -48,11 +47,11 @@ export default function JobList() {
     <div
       className="pt-2 pb-5"
       style={{
-        backgroundColor: "#fcfbfbff",
+        backgroundColor: "#fcfbfb",
         display: "flex",
         flexDirection: "column",
         minHeight: "auto",
-        height:"100%"
+        height: "100%",
       }}
     >
       <div className="container flex-grow-1">
@@ -73,7 +72,7 @@ export default function JobList() {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1); // Reset to page 1 when search term changes
+                setCurrentPage(1);
               }}
             />
           </div>
@@ -83,7 +82,7 @@ export default function JobList() {
               value={roleFilter}
               onChange={(e) => {
                 setRoleFilter(e.target.value);
-                setCurrentPage(1); // Reset to page 1 when filter changes
+                setCurrentPage(1);
               }}
             >
               <option value="all">All Roles</option>
@@ -111,25 +110,49 @@ export default function JobList() {
         ) : (
           <>
             {/* Job Cards */}
-            <div className="row g-4">
+            <div className="row gy-4">
               {currentJobs.map((job) => (
                 <div key={job._id} className="col-md-6 col-lg-4">
-                  <div
-                    className="card h-100 border-0 rounded-4 job-card"
+                  <Link
+                    to={`/job/${job._id}`}
+                    className="card h-100 text-decoration-none"
                     style={{
+                      borderRadius: "12px",
+                      overflow: "hidden",
                       background: "rgba(255, 255, 255, 0.15)",
                       backdropFilter: "blur(12px)",
                       WebkitBackdropFilter: "blur(12px)",
-                      boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
-                      transition:
-                        "transform 0.3s ease, box-shadow 0.3s ease",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                      color: "#34495e",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    <div className="card-body d-flex flex-column">
-                      <h5
-                        className="card-title fw-bold"
-                        style={{ color: "#34495e" }}
-                      >
+                    <div
+                      className="text-center p-3 bg-white"
+                      style={{
+                        height: "140px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <img
+                        src={
+                          job.img ||
+                          "https://via.placeholder.com/120x60?text=No+Image"
+                        }
+                        alt={job.company || "Company Logo"}
+                        style={{
+                          maxHeight: "100%",
+                          maxWidth: "100%",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </div>
+                    <div className="card-body d-flex flex-column flex-grow-1">
+                      <h5 className="card-title fw-bold text-primary">
                         {job.title}
                       </h5>
                       <h6 className="card-subtitle mb-2 text-muted">
@@ -144,7 +167,7 @@ export default function JobList() {
                             color: "#fff",
                           }}
                         >
-                          {job.location}
+                          {job.location || "Location not specified"}
                         </span>
                         {job.isWFH && (
                           <span
@@ -159,25 +182,29 @@ export default function JobList() {
                         )}
                       </div>
 
-                      <Link
-                        to={`/job/${job._id}`}
-                        className="btn mt-auto"
-                        style={{
-                          backgroundColor: "#2c3e50",
-                          color: "#ffffff",
-                          borderRadius: "50px",
-                        }}
-                      >
-                        View Details
-                      </Link>
+                      <div className="mt-auto">
+                        <span
+                          className="card-footer text-muted small d-block mb-3"
+                          style={{ backgroundColor: "#ecf0f1" }}
+                        >
+                          📅 {new Date(job.postedAt).toLocaleDateString()}
+                        </span>
+                        {/* <button
+                          className="btn w-100"
+                          style={{
+                            backgroundColor: "#2c3e50",
+                            color: "#ffffff",
+                            borderRadius: "50px",
+                            border: "none",
+                            padding: "10px 0",
+                            fontWeight: "600",
+                          }}
+                        >
+                          View Details
+                        </button> */}
+                      </div>
                     </div>
-                    <div
-                      className="card-footer text-muted small"
-                      style={{ backgroundColor: "#ecf0f1" }}
-                    >
-                      📅 {new Date(job.postedAt).toLocaleDateString()}
-                    </div>
-                  </div>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -230,9 +257,11 @@ export default function JobList() {
 
       {/* Hover effect CSS */}
       <style>{`
-        .job-card:hover {
-          transform: scale(0.97); /* Slight zoom out */
-          box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+        .card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+          text-decoration: none;
+          color: inherit;
         }
       `}</style>
     </div>
