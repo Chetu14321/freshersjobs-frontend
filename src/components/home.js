@@ -101,7 +101,7 @@ const Home = () => {
         >
           Whether you are searching for your first job, an internship to gain
           valuable experience, or tools to make your resume stand out,
-          FreshersJobs aims to be your trusted partner on this journey. We also
+          "FreshersJobs" aims to be your trusted partner on this journey. We also
           provide personalized job alerts, expert career advice, and support to
           help you navigate the competitive job market with confidence.
         </p>
