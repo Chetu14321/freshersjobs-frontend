@@ -1,23 +1,22 @@
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
-import JobList from "./components/JobList";
-import JobDetails from "./components/JobDetails";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
-import Intership from "./components/internship";
-// import AdBanner from "./components/Addbanner";
-
-import About from "./pages/About";
-import Contact from "./pages/contact";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/terms";
-import ResumeChecker from "./components/resumeChecker"; 
 import { ThemeProvider } from "./components/ThemeContex";
-import Home from "./components/home"; // or "./pages/Home" based on where you placed it
+import ChatWidget from "./components/ChatWidget";
 
-
-
-import ChatWidget from "./components/ChatWidget";  // ⬅️ import this
+// Lazy load components for better performance
+const Home = lazy(() => import("./components/home"));
+const JobList = lazy(() => import("./components/JobList"));
+const JobDetails = lazy(() => import("./components/JobDetails"));
+const Intership = lazy(() => import("./components/internship"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/contact"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/terms"));
+const ResumeChecker = lazy(() => import("./components/resumeChecker"));
 
 function App() {
   return (
@@ -28,20 +27,23 @@ function App() {
         <div className="container-fluid mt-4">
           <div className="row">
             <div className="col-lg-8 col-md-12">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/jobs" element={<JobList />} />
-                <Route path="/job/:id" element={<JobDetails />} />
-                <Route path="/internships" element={<Intership />} />
-                <Route path="/locations" element={<h2>Locations Coming Soon</h2>} />
+              {/* Suspense fallback shows while lazy-loaded components load */}
+              <Suspense fallback={<div style={{padding: "2rem", textAlign:"center"}}>Loading...</div>}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/jobs" element={<JobList />} />
+                  <Route path="/job/:id" element={<JobDetails />} />
+                  <Route path="/internships" element={<Intership />} />
+                  <Route path="/locations" element={<h2>Locations Coming Soon</h2>} />
 
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<Terms />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/terms" element={<Terms />} />
 
-                <Route path="/resume-checker" element={<ResumeChecker />} />
-              </Routes>
+                  <Route path="/resume-checker" element={<ResumeChecker />} />
+                </Routes>
+              </Suspense>
             </div>
 
             <div className="col-lg-4 d-none d-lg-block">
@@ -53,12 +55,11 @@ function App() {
         {/* <AdBanner /> */}
         <Footer />
 
-        {/* ⬇️ Floating Chat Widget */}
+        {/* Floating Chat Widget */}
         <ChatWidget />
       </Router>
     </ThemeProvider>
   );
 }
-
 
 export default App;

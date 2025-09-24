@@ -5,11 +5,23 @@ import { Link } from "react-router-dom";
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const jobsPerPage = 6;
 
+  // Debounce searchTerm to reduce filtering on every keystroke
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(1); // Reset page when search changes
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
+  // Fetch jobs on mount
   useEffect(() => {
     setLoading(true);
     axios
@@ -25,12 +37,17 @@ export default function JobList() {
   const filteredJobs = jobs.filter((job) => {
     const title = job?.title?.toLowerCase() || "";
     const company = job?.company?.toLowerCase() || "";
-    const search = searchTerm.toLowerCase();
+    const search = debouncedSearch.toLowerCase();
     const roleTerm = roleFilter.toLowerCase();
-    return (
-      (title.includes(search) || company.includes(search)) &&
-      (roleFilter === "all" || title.includes(roleTerm))
-    );
+
+    const matchesSearch = title.includes(search) || company.includes(search);
+
+    const matchesRole =
+      roleFilter === "all" ||
+      (job.role && job.role.toLowerCase().includes(roleTerm)) || // check role if exists
+      title.includes(roleTerm); // fallback to title check
+
+    return matchesSearch && matchesRole;
   });
 
   // Pagination Logic
@@ -40,7 +57,9 @@ export default function JobList() {
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
   };
 
   return (
@@ -70,10 +89,7 @@ export default function JobList() {
               className="form-control rounded-pill"
               placeholder="🔍 Search jobs by title or company..."
               value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setCurrentPage(1);
-              }}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="col-md-6 mb-2">
@@ -139,6 +155,7 @@ export default function JobList() {
                       }}
                     >
                       <img
+                        loading="lazy"
                         src={
                           job.img ||
                           "https://via.placeholder.com/120x60?text=No+Image"
@@ -189,19 +206,6 @@ export default function JobList() {
                         >
                           📅 {new Date(job.postedAt).toLocaleDateString()}
                         </span>
-                        {/* <button
-                          className="btn w-100"
-                          style={{
-                            backgroundColor: "#2c3e50",
-                            color: "#ffffff",
-                            borderRadius: "50px",
-                            border: "none",
-                            padding: "10px 0",
-                            fontWeight: "600",
-                          }}
-                        >
-                          View Details
-                        </button> */}
                       </div>
                     </div>
                   </Link>
@@ -213,16 +217,15 @@ export default function JobList() {
             {totalPages > 1 && (
               <nav className="d-flex justify-content-center mt-4">
                 <ul className="pagination">
-                  {currentPage > 1 && (
-                    <li className="page-item">
-                      <button
-                        className="page-link"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                      >
-                        Previous
-                      </button>
-                    </li>
-                  )}
+                  <li className="page-item">
+                    <button
+                      className="page-link"
+                      disabled={currentPage === 1}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </button>
+                  </li>
                   {Array.from({ length: totalPages }, (_, i) => (
                     <li
                       key={i + 1}
@@ -238,16 +241,15 @@ export default function JobList() {
                       </button>
                     </li>
                   ))}
-                  {currentPage < totalPages && (
-                    <li className="page-item">
-                      <button
-                        className="page-link"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                      >
-                        Next
-                      </button>
-                    </li>
-                  )}
+                  <li className="page-item">
+                    <button
+                      className="page-link"
+                      disabled={currentPage === totalPages}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </button>
+                  </li>
                 </ul>
               </nav>
             )}

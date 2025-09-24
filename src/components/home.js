@@ -68,11 +68,7 @@ const Home = () => {
               style={{ transition: "transform 0.3s" }}
             >
               <div className="card-body text-center">
-                <Icon
-                  size={48}
-                  className={`mb-3 text-${color}`}
-                  strokeWidth={1.5}
-                />
+                <Icon size={48} className={`mb-3 text-${color}`} strokeWidth={1.5} />
                 <h3 className={`card-title text-${color}`}>{title}</h3>
                 <p className="card-text text-muted">{description}</p>
               </div>
@@ -162,19 +158,18 @@ const Home = () => {
       </section>
 
       <style>{`
-  .card {
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  }
-  .hover-shadow:hover {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  }
-`}</style>
-
+        .card {
+          transition: transform 0.3s, box-shadow 0.3s;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        .hover-shadow:hover {
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+      `}</style>
     </div>
   );
 };
