@@ -76,7 +76,7 @@ export default function JobDetails() {
                     maxHeight: "400px",
                     objectFit: "cover",
                     border: "5px solid #080a09ff",
-                    boxShadow: "0 15px 30px rgba(148, 148, 148, 0.2)",
+                    boxShadow: "0 15px 30px rgba(80, 79, 79, 0.2)",
                   }}
                 />
               </div>
@@ -102,7 +102,7 @@ export default function JobDetails() {
                 <tbody>
                   <tr>
                     <th>Job Role</th>
-                    <td>{job.role || "-"}</td>
+                    <td>{job.title || "-"}</td>
                   </tr>
                   <tr>
                     <th>Qualification</th>
@@ -129,7 +129,7 @@ export default function JobDetails() {
                     <td>
                       {job.lastDate
                         ? new Date(job.lastDate).toLocaleDateString()
-                        : "-"}
+                        : "Not Mentioned"}
                     </td>
                   </tr>
                 </tbody>
