@@ -130,15 +130,7 @@ export default function Contact() {
           >
             LinkedIn
           </a>
-          <a
-            href="https://twitter.com/chetuchethan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-decoration-none text-primary"
-            aria-label="Twitter"
-          >
-            Twitter
-          </a>
+          
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeContex";
 import ChatWidget from "./components/ChatWidget";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy load components for better performance
 const Home = lazy(() => import("./components/home"));
@@ -22,6 +23,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
+          <ScrollToTop /> 
         <Navbar />
 
         <div className="container-fluid mt-4">

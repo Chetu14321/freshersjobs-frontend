@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Briefcase, GraduationCap, FileSearch } from "lucide-react";
+import {
+  Briefcase,
+  GraduationCap,
+  FileSearch,
+  Home,
+  Info,
+  Mail,
+  ShieldCheck,
+  FileText,
+} from "lucide-react";
 
 const cardData = [
   {
@@ -27,7 +36,7 @@ const cardData = [
   },
 ];
 
-const Home = () => {
+const HomeComponent = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +48,6 @@ const Home = () => {
         return res.json();
       })
       .then((data) => {
-        // Sort jobs by postedAt descending (newest first)
         const sortedJobs = (data.jobs || data).sort(
           (a, b) => new Date(b.postedAt) - new Date(a.postedAt)
         );
@@ -54,11 +62,13 @@ const Home = () => {
 
   return (
     <div className="container py-5">
+      {/* ✅ Hero Section */}
       <h1 className="mb-4 fw-bold text-center">Welcome to FreshersJobs</h1>
       <p className="text-center mb-5 lead">
         Your gateway to freshers jobs, internships, and resume optimization.
       </p>
 
+      {/* ✅ Cards Section */}
       <div className="row gy-4">
         {cardData.map(({ title, description, icon: Icon, link, color }) => (
           <div key={title} className="col-md-4">
@@ -68,7 +78,11 @@ const Home = () => {
               style={{ transition: "transform 0.3s" }}
             >
               <div className="card-body text-center">
-                <Icon size={48} className={`mb-3 text-${color}`} strokeWidth={1.5} />
+                <Icon
+                  size={48}
+                  className={`mb-3 text-${color}`}
+                  strokeWidth={1.5}
+                />
                 <h3 className={`card-title text-${color}`}>{title}</h3>
                 <p className="card-text text-muted">{description}</p>
               </div>
@@ -77,6 +91,7 @@ const Home = () => {
         ))}
       </div>
 
+      {/* ✅ About Section */}
       <section className="mt-5 p-4 bg-light rounded shadow-sm">
         <h2 className="mb-3 text-center">About FreshersJobs Portal</h2>
         <p
@@ -97,9 +112,10 @@ const Home = () => {
         >
           Whether you are searching for your first job, an internship to gain
           valuable experience, or tools to make your resume stand out,
-          "FreshersJobs" aims to be your trusted partner on this journey. We also
-          provide personalized job alerts, expert career advice, and support to
-          help you navigate the competitive job market with confidence.
+          "FreshersJobs" aims to be your trusted partner on this journey. We
+          also provide personalized job alerts, expert career advice, and
+          support to help you navigate the competitive job market with
+          confidence.
         </p>
         <p
           className="text-center text-secondary mx-auto"
@@ -111,6 +127,49 @@ const Home = () => {
         </p>
       </section>
 
+      {/* ✅ Explore More Section */}
+      <section className="mt-5 text-center">
+        <h2 className="mb-4">Explore More on FreshersJobs</h2>
+        <div className="d-flex flex-wrap justify-content-center gap-3">
+          {[
+            { name: "Home", path: "/", icon: Home },
+            { name: "Jobs", path: "/jobs", icon: Briefcase },
+            { name: "Internships", path: "/internships", icon: GraduationCap },
+            { name: "Resume ATS", path: "/resume-checker", icon: FileSearch },
+            { name: "About", path: "/about", icon: Info },
+            { name: "Contact", path: "/contact", icon: Mail },
+            { name: "Privacy", path: "/privacy", icon: ShieldCheck },
+            { name: "Terms", path: "/terms", icon: FileText },
+          ].map(({ name, path, icon: Icon }) => (
+            <Link
+              key={name}
+              to={path}
+              className="explore-link d-flex align-items-center justify-content-center gap-2 border rounded px-4 py-2 text-decoration-none text-dark shadow-sm"
+            >
+              <Icon size={18} className="text-primary" />
+              {name}
+            </Link>
+          ))}
+        </div>
+
+        <style>{`
+          .explore-link {
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background-color: #fff;
+          }
+          .explore-link:hover {
+            background-color: #0d6efd;
+            color: #fff !important;
+            // transform: scale(1.05);
+          }
+          .explore-link:hover svg {
+            color: #fff !important;
+          }
+        `}</style>
+      </section>
+
+      {/* ✅ Latest Job Openings */}
       <section className="mt-5">
         <h2 className="mb-4 text-center">Latest Job Openings</h2>
 
@@ -119,7 +178,9 @@ const Home = () => {
 
         <div className="row gy-4">
           {jobs.length === 0 && !loading && !error && (
-            <p className="text-center text-muted">No jobs available at the moment.</p>
+            <p className="text-center text-muted">
+              No jobs available at the moment.
+            </p>
           )}
 
           {jobs.slice(0, 6).map(({ _id, img, title, company, location }) => (
@@ -139,9 +200,15 @@ const Home = () => {
                   }}
                 >
                   <img
-                    src={img || "https://via.placeholder.com/120x60?text=No+Image"}
+                    src={
+                      img || "https://via.placeholder.com/120x60?text=No+Image"
+                    }
                     alt={company || "Company Logo"}
-                    style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+                    style={{
+                      maxHeight: "100%",
+                      maxWidth: "100%",
+                      objectFit: "contain",
+                    }}
                   />
                 </div>
                 <div className="card-body text-center">
@@ -157,21 +224,10 @@ const Home = () => {
         </div>
       </section>
 
-      <style>{`
-        .card {
-          transition: transform 0.3s, box-shadow 0.3s;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        .card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
-        .hover-shadow:hover {
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
-      `}</style>
+      {/* ✅ Common Styles */}
+      {/* cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */}
     </div>
   );
 };
 
-export default Home;
+export default HomeComponent;
