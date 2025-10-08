@@ -136,7 +136,7 @@ export default function Navbar() {
             {/* Mobile About */}
             <li className="list-group-item">
               <div className="fw-semibold text-dark mb-2 d-flex align-items-center gap-2">
-                <Info size={18} className="text-primary" /> About
+                <Info size={18} className="text-primary" /> Terms and Conditions
               </div>
               <ul className="list-unstyled ps-3">
                 {aboutDropdown.map((item, idx) => (
