@@ -23,7 +23,7 @@ export default function About() {
       <div className="card shadow-sm border-0 p-4">
         <h2 className="fw-bold text-primary mb-3">About FreshersJobs</h2>
         <p className="text-muted" style={{ fontSize: "1.1rem", lineHeight: "1.7" }}>
-          Welcome to <strong>FreshersJobs</strong>, your trusted platform for
+          Welcome ,to <strong>FreshersJobs</strong>, your trusted platform for
           the latest job openings, internships, and career opportunities for
           students and recent graduates. We are committed to helping freshers
           build their careers by providing timely, verified, and high-quality
