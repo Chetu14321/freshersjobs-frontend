@@ -15,21 +15,36 @@ const HomeComponent = () => {
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/jobs`)
-      .then((res) => { if (!res.ok) throw new Error("Failed to fetch jobs"); return res.json(); })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch jobs");
+        return res.json();
+      })
       .then((data) => {
         const sortedJobs = (data.jobs || data).sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
         setJobs(sortedJobs);
         setLoading(false);
       })
-      .catch((err) => { setError(err.message); setLoading(false); });
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
   }, []);
+
+  const getColor = (color) => {
+    if (color === "primary") return "#0d6efd";
+    if (color === "success") return "#198754";
+    if (color === "warning") return "#ffc107";
+    return "#0d6efd";
+  };
 
   return (
     <div className="container py-5">
 
       {/* Hero Section */}
       <h1 className="mb-4 fw-bold text-center title-animate">Welcome to FreshersJobs</h1>
-      <p className="text-center mb-5 lead text-secondary">Your gateway to freshers jobs, internships, and resume optimization.</p>
+      <p className="text-center mb-5 lead text-secondary-contrast">
+        Your gateway to freshers jobs, internships, and resume optimization.
+      </p>
 
       {/* Cards Section */}
       <div className="row gy-4">
@@ -37,16 +52,13 @@ const HomeComponent = () => {
           <div key={title} className="col-md-4 fade-delay" style={{ animationDelay: `${idx * 0.2}s` }}>
             <Link
               to={link}
-              className={`card h-100 shadow-sm text-decoration-none hover-card`}
-              style={{
-                borderTop: `4px solid ${color === "primary" ? "#0d6efd" : color === "success" ? "#198754" : "#ffc107"}`,
-                transition: "transform 0.3s, box-shadow 0.3s"
-              }}
+              className="card h-100 shadow-sm text-decoration-none hover-card"
+              style={{ borderTop: `4px solid ${getColor(color)}` }}
             >
               <div className="card-body text-center">
-                <Icon size={48} className={`mb-3`} style={{ color: color === "primary" ? "#0d6efd" : color === "success" ? "#198754" : "#ffc107" }} strokeWidth={1.5} />
-                <h3 className="card-title" style={{ color: color === "primary" ? "#0d6efd" : color === "success" ? "#198754" : "#ffc107" }}>{title}</h3>
-                <p className="card-text text-secondary">{description}</p>
+                <Icon size={48} className="mb-3" style={{ color: getColor(color) }} strokeWidth={1.5} />
+                <h2 className="card-title" style={{ color: getColor(color) }}>{title}</h2>
+                <p className="card-text text-secondary-contrast">{description}</p>
               </div>
             </Link>
           </div>
@@ -56,7 +68,7 @@ const HomeComponent = () => {
       {/* About Section */}
       <section className="mt-5 p-4 bg-light rounded shadow-sm fade-delay">
         <h2 className="mb-3 text-center">About FreshersJobs Portal</h2>
-        <p className="text-center text-secondary mx-auto" style={{ maxWidth: "700px" }}>
+        <p className="text-center text-secondary-contrast mx-auto" style={{ maxWidth: "700px" }}>
           FreshersJobs helps entry-level graduates kickstart careers. We provide jobs, internships, and tools like resume ATS optimization.
         </p>
       </section>
@@ -65,20 +77,18 @@ const HomeComponent = () => {
       <section className="mt-5 text-center fade-delay">
         <h2 className="mb-4">Explore More on FreshersJobs</h2>
         <div className="d-flex flex-wrap justify-content-center gap-3">
-          {[
-            { name: "Home", path: "/", icon: Home },
+          {[{ name: "Home", path: "/", icon: Home },
             { name: "Jobs", path: "/jobs", icon: Briefcase },
             { name: "Internships", path: "/internships", icon: GraduationCap },
             { name: "Resume ATS", path: "/resume-checker", icon: FileSearch },
             { name: "About", path: "/about", icon: Info },
             { name: "Contact", path: "/contact", icon: Mail },
             { name: "Privacy", path: "/privacy", icon: ShieldCheck },
-            { name: "Terms", path: "/terms", icon: FileText },
-          ].map(({ name, path, icon: Icon }) => (
+            { name: "Terms", path: "/terms", icon: FileText }].map(({ name, path, icon: Icon }) => (
             <Link
               key={name}
               to={path}
-              className="explore-link d-flex align-items-center justify-content-center gap-2 border rounded px-4 py-2 text-decoration-none shadow-sm"
+              className="explore-link d-flex align-items-center justify-content-center gap-2 border rounded px-4 py-2 shadow-sm"
             >
               <Icon size={18} className="text-primary" /> {name}
             </Link>
@@ -97,12 +107,19 @@ const HomeComponent = () => {
             <div key={_id} className="col-md-4 fade-delay" style={{ animationDelay: `${idx * 0.2}s` }}>
               <Link to={`/job/${_id}`} className="card h-100 shadow-sm text-decoration-none hover-card">
                 <div className="text-center p-3 bg-white" style={{ height: "140px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <img src={img || "https://via.placeholder.com/120x60?text=No+Image"} alt={company || "Company Logo"} style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }} />
+                  <img
+                    src={img || "https://via.placeholder.com/120x60?text=No+Image"}
+                    alt={company || "Company Logo"}
+                    width={120}
+                    height={60}
+                    loading="lazy"
+                    style={{ objectFit: "contain" }}
+                  />
                 </div>
                 <div className="card-body text-center">
-                  <h5 className="card-title text-primary">{title}</h5>
-                  <p className="card-text text-secondary mb-1">{company}</p>
-                  <p className="card-text text-secondary">{location || "Location not specified"}</p>
+                  <h3 className="card-title text-primary">{title}</h3>
+                  <p className="card-text text-secondary-contrast mb-1">{company}</p>
+                  <p className="card-text text-secondary-contrast">{location || "Location not specified"}</p>
                 </div>
               </Link>
             </div>
@@ -118,6 +135,7 @@ const HomeComponent = () => {
         .explore-link { transition: all 0.3s ease; font-weight: 500; background-color: #fff; color: #212529; }
         .explore-link:hover { background-color: #0d6efd; color: #fff !important; }
         .explore-link:hover svg { color: #fff !important; }
+        .text-secondary-contrast { color: #495057; } /* better contrast */
 
         @keyframes fadeUp { 0% { opacity:0; transform: translateY(20px);} 100% { opacity:1; transform:translateY(0);} }
         @keyframes slideFadeIn {0% {opacity:0; transform:translateY(-30px);} 100% {opacity:1; transform:translateY(0);}}
