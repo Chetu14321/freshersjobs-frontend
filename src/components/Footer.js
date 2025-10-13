@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-light mt-5 fade-up">
+    <footer className="bg-dark text-white mt-5 fade-up">
       <div className="container py-5">
         <div className="row text-center text-md-start">
           {/* Brand Section */}
@@ -10,7 +10,7 @@ export default function Footer() {
             <h4 className="fw-bold">
               <span className="text-primary">Job</span>Board
             </h4>
-            <p className="small text-secondary">
+            <p className="small text-secondary-contrast">
               Discover jobs, internships, and opportunities that shape your future. 
               We connect talent with the right companies.
             </p>
@@ -20,7 +20,7 @@ export default function Footer() {
                 href="https://www.linkedin.com/in/chethan-m-p-15691236a"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-light fs-5 hover-icon"
+                className="text-white fs-5 hover-icon"
                 aria-label="LinkedIn"
               >
                 <i className="bi bi-linkedin"></i>
@@ -33,13 +33,13 @@ export default function Footer() {
             <h6 className="fw-bold mb-3">Quick Links</h6>
             <ul className="list-unstyled">
               <li className="mb-2">
-                <Link className="text-decoration-none text-light hover-link" to="/">Jobs</Link>
+                <Link className="text-decoration-none text-white hover-link" to="/">Jobs</Link>
               </li>
               <li className="mb-2">
-                <Link className="text-decoration-none text-light hover-link" to="/internships">Internships</Link>
+                <Link className="text-decoration-none text-white hover-link" to="/internships">Internships</Link>
               </li>
               <li className="mb-2">
-                <Link className="text-decoration-none text-light hover-link" to="/contact">Contact Us</Link>
+                <Link className="text-decoration-none text-white hover-link" to="/contact">Contact Us</Link>
               </li>
             </ul>
           </div>
@@ -49,7 +49,7 @@ export default function Footer() {
             <h6 className="fw-bold mb-3">Contact</h6>
             <p className="small mb-2">
               📧{" "}
-              <a href="mailto:chetuchethan87@gmail.com" className="text-light text-decoration-none hover-link">
+              <a href="mailto:chetuchethan87@gmail.com" className="text-white text-decoration-none hover-link">
                 chetuchethan87@gmail.com
               </a>
             </p>
@@ -59,7 +59,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-secondary text-center py-3 fade-delay" style={{ animationDelay: "0.4s" }}>
+      <div className="bg-secondary text-white text-center py-3 fade-delay" style={{ animationDelay: "0.4s" }}>
         <p className="mb-0 small">
           © {new Date().getFullYear()} <span className="fw-bold">JobBoard</span>. All rights reserved.
         </p>
@@ -69,6 +69,11 @@ export default function Footer() {
         /* Animations */
         .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s ease forwards; }
         .fade-delay { opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s ease forwards; }
+
+        /* Contrast adjustments */
+        .text-secondary-contrast { color: #dcdcdc; } /* higher contrast than default text-secondary */
+        a.text-white { color: #ffffff; }
+        a.text-white:hover { color: #0d6efd !important; }
 
         /* Hover Effects */
         .hover-link:hover { color: #0d6efd !important; text-decoration: underline; transition: 0.3s; }
