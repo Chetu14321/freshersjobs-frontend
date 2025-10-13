@@ -41,11 +41,7 @@ export default function Navbar() {
     >
       <div className="container">
         {/* Logo */}
-        <Link
-          className="navbar-brand fw-bold text-dark"
-          to="/"
-          style={{ fontSize: "1.8rem" }}
-        >
+        <Link className="navbar-brand fw-bold text-dark" to="/" style={{ fontSize: "1.8rem" }}>
           <span className="text-primary">Freshers</span>Job
         </Link>
 
@@ -64,11 +60,7 @@ export default function Navbar() {
         <ul className="navbar-nav ms-auto d-none d-lg-flex flex-row gap-4 align-items-center mb-0">
           {navItems.map((item, idx) => (
             <li key={idx} className="nav-item">
-              <NavLink
-                end
-                to={item.path}
-                className="custom-link d-flex align-items-center gap-1"
-              >
+              <NavLink end to={item.path} className="custom-link d-flex align-items-center gap-1">
                 <item.icon size={18} className="text-primary" />
                 {item.name}
               </NavLink>
@@ -105,16 +97,15 @@ export default function Navbar() {
         style={{ width: "260px" }}
       >
         <div className="offcanvas-header border-bottom">
-          <h5 className="offcanvas-title fw-bold text-primary">
-            JobBoard Menu
-          </h5>
+          <h5 className="offcanvas-title fw-bold text-primary">JobBoard Menu</h5>
+          {/* Lucide X icon for closing */}
           <button
             type="button"
-            className="btn btn-close"
+            className="btn"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >
-            <X size={20} className="text-dark" />
+            <X size={24} className="text-dark" />
           </button>
         </div>
 
@@ -136,7 +127,7 @@ export default function Navbar() {
             {/* Mobile About */}
             <li className="list-group-item">
               <div className="fw-semibold text-dark mb-2 d-flex align-items-center gap-2">
-                <Info size={18} className="text-primary" /> Terms and Conditions
+                <Info size={18} className="text-primary" /> About & Policies
               </div>
               <ul className="list-unstyled ps-3">
                 {aboutDropdown.map((item, idx) => (
@@ -146,8 +137,7 @@ export default function Navbar() {
                       onClick={closeOffcanvas}
                       className="d-flex align-items-center gap-2 text-decoration-none text-dark py-1"
                     >
-                      <item.icon size={16} className="text-primary" />{" "}
-                      {item.name}
+                      <item.icon size={16} className="text-primary" /> {item.name}
                     </NavLink>
                   </li>
                 ))}
@@ -169,8 +159,6 @@ export default function Navbar() {
           display: inline-flex;
           align-items: center;
         }
-
-        /* Underline effect without layout shift */
         .custom-link::after {
           content: "";
           position: absolute;
@@ -181,17 +169,14 @@ export default function Navbar() {
           background-color: #0d6efd;
           transition: width 0.25s ease;
         }
-
         .custom-link:hover::after,
         .custom-link.active::after {
           width: 100%;
         }
-
         .custom-link:hover {
           color: #0d6efd !important;
         }
 
-        /* Dropdown menu smooth hover */
         .dropdown-menu.custom-dropdown {
           border-radius: 10px;
           border: none;
@@ -207,25 +192,21 @@ export default function Navbar() {
           left: 0;
           z-index: 1000;
         }
-
         .nav-item.dropdown:hover .dropdown-menu {
           opacity: 1;
           transform: translateY(0);
           visibility: visible;
         }
-
         .dropdown-item {
           padding: 0.55rem 1rem;
           font-weight: 500;
           color: #333 !important;
           transition: background 0.2s ease, color 0.2s ease;
         }
-
         .dropdown-item:hover {
           background-color: #f1f5ff;
           color: #0d6efd !important;
         }
-
         .dropdown-toggle.no-arrow::after {
           display: none !important;
         }

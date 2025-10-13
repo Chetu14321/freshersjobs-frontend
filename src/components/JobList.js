@@ -11,96 +11,44 @@ export default function JobList() {
   const [loading, setLoading] = useState(true);
   const jobsPerPage = 6;
 
-  // Debounce searchTerm to reduce filtering on every keystroke
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(searchTerm);
-      setCurrentPage(1); // Reset page when search changes
-    }, 300);
-
+    const handler = setTimeout(() => { setDebouncedSearch(searchTerm); setCurrentPage(1); }, 300);
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  // Fetch jobs on mount
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/jobs`)
-      .then((res) => {
-        const onlyJobs = res.data.filter((job) => job.type === "job");
-        setJobs(onlyJobs);
-      })
-      .catch((err) => console.error("Error fetching jobs:", err))
+    axios.get(`${process.env.REACT_APP_API_URL}/api/jobs`)
+      .then((res) => setJobs(res.data.filter(j => j.type === "job")))
+      .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
 
-  const filteredJobs = jobs.filter((job) => {
-    const title = job?.title?.toLowerCase() || "";
-    const company = job?.company?.toLowerCase() || "";
+  const filteredJobs = jobs.filter(j => {
     const search = debouncedSearch.toLowerCase();
     const roleTerm = roleFilter.toLowerCase();
-
-    const matchesSearch = title.includes(search) || company.includes(search);
-
-    const matchesRole =
-      roleFilter === "all" ||
-      (job.role && job.role.toLowerCase().includes(roleTerm)) || // check role if exists
-      title.includes(roleTerm); // fallback to title check
-
+    const matchesSearch = (j.title||"").toLowerCase().includes(search) || (j.company||"").toLowerCase().includes(search);
+    const matchesRole = roleFilter === "all" || (j.role && j.role.toLowerCase().includes(roleTerm)) || (j.title||"").toLowerCase().includes(roleTerm);
     return matchesSearch && matchesRole;
   });
 
-  // Pagination Logic
-  const indexOfLastJob = currentPage * jobsPerPage;
-  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-  const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
-  };
+  const indexOfLast = currentPage*jobsPerPage, indexOfFirst=indexOfLast-jobsPerPage;
+  const currentJobs = filteredJobs.slice(indexOfFirst,indexOfLast);
+  const totalPages = Math.ceil(filteredJobs.length/jobsPerPage);
+  const handlePageChange = page => page>=1 && page<=totalPages && setCurrentPage(page);
 
   return (
-    <div
-      className="pt-2 pb-5"
-      style={{
-        backgroundColor: "#fcfbfb",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "auto",
-        height: "100%",
-      }}
-    >
-      <div className="container flex-grow-1">
-        <h2
-          className="text-center mb-5 fw-bold display-6 title-animate"
-          style={{ color: "#2c3e50" }}
-        >
-          Latest Job Opportunities
-        </h2>
+    <div className="pt-2 pb-5 fade-delay" style={{backgroundColor:"#fcfbfb", minHeight:"100vh"}}>
+      <div className="container">
+        <h2 className="text-center mb-5 fw-bold display-6 title-animate" style={{color:"#2c3e50"}}>Latest Job Opportunities</h2>
 
-        {/* Search + Filter */}
+        {/* Search & Filter */}
         <div className="row mb-4">
           <div className="col-md-6 mb-2">
-            <input
-              type="text"
-              className="form-control rounded-pill"
-              placeholder="🔍 Search jobs by title or company..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <input type="text" className="form-control rounded-pill" placeholder="🔍 Search jobs..." value={searchTerm} onChange={e=>setSearchTerm(e.target.value)} />
           </div>
           <div className="col-md-6 mb-2">
-            <select
-              className="form-select rounded-pill"
-              value={roleFilter}
-              onChange={(e) => {
-                setRoleFilter(e.target.value);
-                setCurrentPage(1);
-              }}
-            >
+            <select className="form-select rounded-pill" value={roleFilter} onChange={e=>{setRoleFilter(e.target.value); setCurrentPage(1);}}>
               <option value="all">All Roles</option>
               <option value="frontend">Frontend Developer</option>
               <option value="backend">Backend Developer</option>
@@ -111,102 +59,26 @@ export default function JobList() {
           </div>
         </div>
 
-        {/* Loader */}
+        {/* Jobs List */}
         {loading ? (
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: "40vh" }}
-          >
-            <div className="spinner-border text-secondary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+          <div className="d-flex justify-content-center align-items-center" style={{height:"40vh"}}>
+            <div className="spinner-border text-secondary" role="status"/>
           </div>
-        ) : currentJobs.length === 0 ? (
+        ) : currentJobs.length===0 ? (
           <p className="text-center text-muted mt-5">No jobs found.</p>
         ) : (
           <>
-            {/* Job Cards */}
             <div className="row gy-4">
-              {currentJobs.map((job) => (
-                <div key={job._id} className="col-md-6 col-lg-4">
-                  <Link
-                    to={`/job/${job._id}`}
-                    className="card h-100 text-decoration-none"
-                    style={{
-                      borderRadius: "12px",
-                      overflow: "hidden",
-                      background: "rgba(255, 255, 255, 0.15)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      color: "#34495e",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <div
-                      className="text-center p-3 bg-white"
-                      style={{
-                        height: "140px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <img
-                        loading="lazy"
-                        src={
-                          job.img ||
-                          "https://via.placeholder.com/120x60?text=No+Image"
-                        }
-                        alt={job.company || "Company Logo"}
-                        style={{
-                          maxHeight: "100%",
-                          maxWidth: "100%",
-                          objectFit: "contain",
-                        }}
-                      />
+              {currentJobs.map((job,idx)=>(
+                <div key={job._id} className="col-md-6 col-lg-4 fade-delay" style={{animationDelay:`${idx*0.2}s`}}>
+                  <Link to={`/job/${job._id}`} className="card h-100 text-decoration-none card-hover">
+                    <div className="text-center p-3 bg-white" style={{height:"140px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <img src={job.img||"https://via.placeholder.com/120x60?text=No+Image"} alt={job.company} style={{maxHeight:"100%", maxWidth:"100%", objectFit:"contain"}}/>
                     </div>
                     <div className="card-body d-flex flex-column flex-grow-1">
-                      <h5 className="card-title fw-bold text-primary">
-                        {job.title}
-                      </h5>
-                      <h6 className="card-subtitle mb-2 text-muted">
-                        {job.company}
-                      </h6>
-
-                      <div className="mb-3">
-                        <span
-                          className="badge"
-                          style={{
-                            backgroundColor: "#2980b9",
-                            color: "#fff",
-                          }}
-                        >
-                          {job.location || "Location not specified"}
-                        </span>
-                        {job.isWFH && (
-                          <span
-                            className="badge ms-2"
-                            style={{
-                              backgroundColor: "#27ae60",
-                              color: "#fff",
-                            }}
-                          >
-                            Remote
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="mt-auto">
-                        <span
-                          className="card-footer text-muted small d-block mb-3"
-                          style={{ backgroundColor: "#ecf0f1" }}
-                        >
-                          📅 {new Date(job.postedAt).toLocaleDateString()}
-                        </span>
-                      </div>
+                      <h5 className="card-title fw-bold text-primary">{job.title}</h5>
+                      <h6 className="card-subtitle mb-2 text-muted">{job.company}</h6>
+                      <p className="text-secondary mt-auto">{job.location||"Location not specified"}</p>
                     </div>
                   </Link>
                 </div>
@@ -214,42 +86,14 @@ export default function JobList() {
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-              <nav className="d-flex justify-content-center mt-4">
+            {totalPages>1 && (
+              <nav className="mt-5 d-flex justify-content-center">
                 <ul className="pagination">
-                  <li className="page-item">
-                    <button
-                      className="page-link"
-                      disabled={currentPage === 1}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                      Previous
-                    </button>
-                  </li>
-                  {Array.from({ length: totalPages }, (_, i) => (
-                    <li
-                      key={i + 1}
-                      className={`page-item ${
-                        currentPage === i + 1 ? "active" : ""
-                      }`}
-                    >
-                      <button
-                        className="page-link"
-                        onClick={() => handlePageChange(i + 1)}
-                      >
-                        {i + 1}
-                      </button>
-                    </li>
+                  <li className={`page-item ${currentPage===1?"disabled":""}`}><button className="page-link" onClick={()=>handlePageChange(currentPage-1)}>Prev</button></li>
+                  {Array.from({length:totalPages}).map((_,i)=>(
+                    <li key={i} className={`page-item ${currentPage===i+1?"active":""}`}><button className="page-link" onClick={()=>handlePageChange(i+1)}>{i+1}</button></li>
                   ))}
-                  <li className="page-item">
-                    <button
-                      className="page-link"
-                      disabled={currentPage === totalPages}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                      Next
-                    </button>
-                  </li>
+                  <li className={`page-item ${currentPage===totalPages?"disabled":""}`}><button className="page-link" onClick={()=>handlePageChange(currentPage+1)}>Next</button></li>
                 </ul>
               </nav>
             )}
@@ -257,14 +101,13 @@ export default function JobList() {
         )}
       </div>
 
-      {/* Hover effect CSS */}
       <style>{`
-        .card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-          text-decoration: none;
-          color: inherit;
-        }
+        .fade-delay { opacity: 0; animation: fadeUp 0.6s ease forwards; }
+        .title-animate { opacity:0; transform: translateY(-30px); animation: slideFadeIn 1s ease forwards; }
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.15); }
+        @keyframes fadeUp { 0% { opacity:0; transform: translateY(20px);} 100% { opacity:1; transform:translateY(0);} }
+        @keyframes slideFadeIn {0% {opacity:0; transform:translateY(-30px);} 100% {opacity:1; transform:translateY(0);}}
       `}</style>
     </div>
   );
