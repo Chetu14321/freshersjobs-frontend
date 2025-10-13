@@ -46,7 +46,7 @@ export default function Footer() {
 
           {/* Contact Section */}
           <div className="col-12 col-md-4 mb-4 fade-delay" style={{ animationDelay: "0.3s" }}>
-            <h6 className="fw-bold mb-3">Contact</h6>
+            <h4 className="fw-bold mb-3">Contact</h4>
             <p className="small mb-2">
               📧{" "}
               <a href="mailto:chetuchethan87@gmail.com" className="text-white text-decoration-none hover-link">
