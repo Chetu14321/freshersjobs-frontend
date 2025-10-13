@@ -10,7 +10,7 @@ export default function Footer() {
             <h4 className="fw-bold">
               <span className="text-primary">Job</span>Board
             </h4>
-            <p className="small text-secondary-contrast">
+            <p className="small text-white">
               Discover jobs, internships, and opportunities that shape your future. 
               We connect talent with the right companies.
             </p>
@@ -30,7 +30,7 @@ export default function Footer() {
 
           {/* Links Section */}
           <div className="col-12 col-md-4 mb-4 fade-delay" style={{ animationDelay: "0.2s" }}>
-            <h6 className="fw-bold mb-3">Quick Links</h6>
+            <h4 className="fw-bold mb-3">Quick Links</h4>
             <ul className="list-unstyled">
               <li className="mb-2">
                 <Link className="text-decoration-none text-white hover-link" to="/">Jobs</Link>

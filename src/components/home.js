@@ -135,10 +135,10 @@ const HomeComponent = () => {
         .explore-link { transition: all 0.3s ease; font-weight: 500; background-color: #fff; color: #212529; }
         .explore-link:hover { background-color: #0d6efd; color: #fff !important; }
         .explore-link:hover svg { color: #fff !important; }
-        .text-secondary-contrast { color: #0a0a0aff; } /* better contrast */
+        .text-secondary-contrast { color: #000000 !important; } /* FULL contrast for accessibility */
 
         @keyframes fadeUp { 0% { opacity:0; transform: translateY(20px);} 100% { opacity:1; transform:translateY(0);} }
-        @keyframes slideFadeIn {0% {opacity:0; transform:translateY(-30px);} 100% {opacity:1; transform:translateY(0);}}
+        @keyframes slideFadeIn {0% {opacity:0; transform:translateY(-30px);} 100% {opacity:1; transform:translateY(0);} }
       `}</style>
     </div>
   );
