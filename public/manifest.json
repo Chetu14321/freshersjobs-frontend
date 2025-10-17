@@ -3,12 +3,12 @@
   "name": "FreshersJobs - Job Portal",
   "icons": [
     {
-      "src": "favicon-192.png",
+      "src": "freshers.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "favicon-512.png",
+      "src": "freshers.png",
       "type": "image/png",
       "sizes": "512x512"
     }
