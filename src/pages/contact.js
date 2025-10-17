@@ -47,7 +47,7 @@ export default function Contact() {
       <div className="card shadow-sm p-4 fade-in">
         <h2 className="mb-4 text-primary">Contact Me</h2>
         <p>
-          Have questions, want to collaborate, or looking to hire? Fill out the form below and I’ll get back to you promptly.
+          'Have questions', want to collaborate, or looking to hire? Fill out the form below and I’ll get back to you promptly.
         </p>
 
         <form onSubmit={handleSubmit} className="mb-4 fade-in-up">
