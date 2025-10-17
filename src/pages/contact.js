@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -18,7 +19,6 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // For demo, just simulate sending
     if (!formData.name || !formData.email || !formData.message) {
       setStatus({ type: "error", msg: "Please fill all fields." });
       return;
@@ -34,14 +34,23 @@ export default function Contact() {
 
   return (
     <div className="container my-5" style={{ maxWidth: "600px" }}>
-      <div className="card shadow-sm p-4">
-        <h2 className="mb-4 text-primary">Contact Us</h2>
+      {/* SEO */}
+      <Helmet>
+        <title>Contact Us | Hire Chethan</title>
+        <link rel="canonical" href="https://freshersjobs.shop/contact" />
+        <meta
+          name="description"
+          content="Get in touch with Chethan M. Fill the contact form for inquiries, collaborations, or hiring opportunities."
+        />
+      </Helmet>
+
+      <div className="card shadow-sm p-4 fade-in">
+        <h2 className="mb-4 text-primary">Contact Me</h2>
         <p>
-          Have questions, feedback, or want to partner with us? We'd love to hear from you! 
-          Please fill out the form below or reach us directly using the contact info.
+          Have questions, want to collaborate, or looking to hire? Fill out the form below and I’ll get back to you promptly.
         </p>
 
-        <form onSubmit={handleSubmit} className="mb-4">
+        <form onSubmit={handleSubmit} className="mb-4 fade-in-up">
           <div className="mb-3">
             <label htmlFor="name" className="form-label fw-semibold">Name</label>
             <input
@@ -53,7 +62,7 @@ export default function Contact() {
               value={formData.name}
               onChange={handleChange}
               required
-              />
+            />
           </div>
 
           <div className="mb-3">
@@ -67,7 +76,7 @@ export default function Contact() {
               value={formData.email}
               onChange={handleChange}
               required
-              />
+            />
           </div>
 
           <div className="mb-3">
@@ -97,7 +106,7 @@ export default function Contact() {
                 : status.type === "error"
                 ? "alert-danger"
                 : "alert-info"
-            }`}
+            } fade-in-up`}
             role="alert"
           >
             {status.msg}
@@ -115,12 +124,12 @@ export default function Contact() {
             <strong>Phone:</strong> Not available
           </p>
           <p>
-            <strong>Address:</strong> Bengaluru, Karnataka, India
+            <strong>Location:</strong> Bengaluru, Karnataka, India
           </p>
         </div>
 
         <div className="mt-4">
-          <h5 className="fw-semibold mb-3">Follow Us</h5>
+          <h5 className="fw-semibold mb-3">Follow Me</h5>
           <a
             href="https://www.linkedin.com/in/chethan-m-p-15691236a"
             target="_blank"
@@ -130,9 +139,26 @@ export default function Contact() {
           >
             LinkedIn
           </a>
-          
         </div>
       </div>
+
+      <style>{`
+        .fade-in { 
+          opacity: 0; 
+          animation: fadeIn 0.8s ease forwards; 
+        }
+        .fade-in-up { 
+          opacity: 0; 
+          transform: translateY(20px);
+          animation: fadeInUp 0.8s ease forwards; 
+        }
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

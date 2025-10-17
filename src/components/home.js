@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet"; // ✅ ADD THIS
 import { Link } from "react-router-dom";
 import {
   Briefcase,
@@ -67,7 +68,6 @@ const HomeComponent = () => {
     return "#0d6efd";
   };
 
-  // ✅ WebP fallback logic
   const getOptimizedImage = (url) => {
     if (!url) return "https://via.placeholder.com/120x60?text=No+Image";
     try {
@@ -83,6 +83,16 @@ const HomeComponent = () => {
 
   return (
     <div className="container py-5">
+      {/* ✅ SEO META TAGS */}
+      <Helmet>
+        <title>Freshers Jobs & Internships in India | FreshersJobs.shop</title>
+        <meta
+          name="description"
+          content="Find the latest jobs and internships for freshers in India. Explore entry-level opportunities, campus hiring, and career guidance with FreshersJobs.shop."
+        />
+        <link rel="canonical" href="https://freshersjobs.shop/" />
+      </Helmet>
+
       {/* Hero Section */}
       <h1 className="mb-4 fw-bold text-center title-animate">
         Welcome to FreshersJobs
@@ -114,7 +124,9 @@ const HomeComponent = () => {
                 <h2 className="card-title" style={{ color: getColor(color) }}>
                   {title}
                 </h2>
-                <p className="card-text text-secondary-contrast">{description}</p>
+                <p className="card-text text-secondary-contrast">
+                  {description}
+                </p>
               </div>
             </Link>
           </div>
@@ -184,7 +196,6 @@ const HomeComponent = () => {
                     justifyContent: "center",
                   }}
                 >
-                  {/* ✅ WebP + fallback image */}
                   <picture>
                     <source srcSet={getOptimizedImage(img)} type="image/webp" />
                     <img
@@ -213,7 +224,7 @@ const HomeComponent = () => {
         </div>
       </section>
 
-      {/* Styles */}
+      {/* Inline Styles */}
       <style>{`
         .fade-delay { opacity: 0; animation: fadeUp 0.6s ease forwards; }
         .title-animate { opacity: 0; transform: translateY(-30px); animation: slideFadeIn 1s ease forwards; }
@@ -222,7 +233,6 @@ const HomeComponent = () => {
         .explore-link:hover { background-color: #0d6efd; color: #fff !important; }
         .explore-link:hover svg { color: #fff !important; }
         .text-secondary-contrast { color: #000000 !important; }
-
         @keyframes fadeUp { 0% { opacity:0; transform: translateY(20px);} 100% { opacity:1; transform:translateY(0);} }
         @keyframes slideFadeIn {0% {opacity:0; transform:translateY(-30px);} 100% {opacity:1; transform:translateY(0);} }
       `}</style>

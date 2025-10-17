@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from "react-helmet"; // ✅ SEO helper
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -46,8 +47,17 @@ export default function JobDetails() {
       </div>
     );
 
+  const canonicalUrl = `https://freshersjobs.shop/jobs/${id}`;
+
   return (
     <div className="py-5 bg-light min-vh-100">
+      {/* ✅ SEO Metadata */}
+      <Helmet>
+        <title>{`${job.title} - ${job.company} | FreshersJobs`}</title>
+        <meta name="description" content={job.description?.slice(0, 160)} />
+        <link rel="canonical" href={canonicalUrl} />
+      </Helmet>
+
       <div className="container">
         {/* Main Job Card */}
         <article className="card shadow-sm border-0 rounded-4 mb-5 p-4 p-md-5 fade-up">
@@ -100,9 +110,7 @@ export default function JobDetails() {
 
           <p className="text-center mb-3">
             <span className="badge bg-primary">{job.location}</span>
-            {job.isWFH && (
-              <span className="badge bg-success ms-2">Remote</span>
-            )}
+            {job.isWFH && <span className="badge bg-success ms-2">Remote</span>}
           </p>
 
           <p className="text-center text-secondary small mb-4">

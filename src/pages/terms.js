@@ -1,7 +1,18 @@
+import { Helmet } from "react-helmet";
+
 export default function Terms() {
   return (
-    <div className="container my-4">
-      <div className="card shadow-sm p-4">
+    <div className="container my-4 fade-in">
+      <Helmet>
+        <title>Terms & Conditions | FreshersJobs</title>
+        <link rel="canonical" href="https://freshersjobs.shop/terms" />
+        <meta
+          name="description"
+          content="Read the Terms & Conditions of FreshersJobs to understand the rules, responsibilities, and limitations of using our website."
+        />
+      </Helmet>
+
+      <div className="card shadow-sm p-4 fade-in-up">
         <h2 className="mb-3">Terms &amp; Conditions</h2>
         <p>
           Welcome to <strong>FreshersJobs</strong>. By accessing or using our
@@ -57,16 +68,31 @@ export default function Terms() {
         <p>
           If you have any questions about these Terms &amp; Conditions, feel free
           to contact us at: <br />
-          📧{" "}
-          <a href="mailto:chetuchethan87@gmail.com">
-            chetuchethan87@gmail.com
-          </a>
+          📧 <a href="mailto:chetuchethan87@gmail.com">chetuchethan87@gmail.com</a>
         </p>
 
         <p className="text-muted mt-4">
           Last updated: <strong>September 2025</strong>
         </p>
       </div>
+
+      <style>{`
+        .fade-in { 
+          opacity: 0; 
+          animation: fadeIn 0.8s ease forwards; 
+        }
+        .fade-in-up { 
+          opacity: 0; 
+          transform: translateY(20px);
+          animation: fadeInUp 0.8s ease forwards; 
+        }
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

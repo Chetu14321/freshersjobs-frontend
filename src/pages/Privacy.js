@@ -1,7 +1,18 @@
+import { Helmet } from "react-helmet";
+
 export default function Privacy() {
   return (
-    <div className="container my-4">
-      <div className="card shadow-sm p-4">
+    <div className="container my-4 fade-in">
+      <Helmet>
+        <title>Privacy Policy | FreshersJobs</title>
+        <link rel="canonical" href="https://freshersjobs.shop/privacy" />
+        <meta
+          name="description"
+          content="Read the Privacy Policy of FreshersJobs to understand how we collect, use, and protect your personal data while using our website."
+        />
+      </Helmet>
+
+      <div className="card shadow-sm p-4 fade-in-up">
         <h2 className="mb-3">Privacy Policy</h2>
         <p>
           At <strong>FreshersJobs</strong>, we value your privacy and are
@@ -59,6 +70,24 @@ export default function Privacy() {
           Last updated: <strong>September 2025</strong>
         </p>
       </div>
+
+      <style>{`
+        .fade-in { 
+          opacity: 0; 
+          animation: fadeIn 0.8s ease forwards; 
+        }
+        .fade-in-up { 
+          opacity: 0; 
+          transform: translateY(20px);
+          animation: fadeInUp 0.8s ease forwards; 
+        }
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

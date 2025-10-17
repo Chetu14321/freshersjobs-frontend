@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
@@ -56,6 +57,16 @@ export default function JobList() {
       className="pt-2 pb-5 fade-delay"
       style={{ backgroundColor: "#fcfbfb", minHeight: "100vh" }}
     >
+      {/* Canonical & Meta for SEO */}
+      <Helmet>
+        <title>Latest Job Opportunities | FreshersJobs</title>
+        <link rel="canonical" href="https://freshersjobs.shop/jobs" />
+        <meta
+          name="description"
+          content="Browse the latest job openings for freshers and kickstart your career with FreshersJobs."
+        />
+      </Helmet>
+
       <div className="container">
         <h2
           className="text-center mb-5 fw-bold display-6 title-animate"

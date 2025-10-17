@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function Internship() {
   const [internships, setInternships] = useState([]);
@@ -16,6 +17,15 @@ export default function Internship() {
 
   return (
     <div className="py-5 fade-delay" style={{ backgroundColor: "#fcfbfb", minHeight: "100vh" }}>
+      <Helmet>
+        <title>Internship Opportunities for Freshers | FreshersJobs.shop</title>
+        <meta
+          name="description"
+          content="Explore top internship opportunities for freshers across India. Find remote, on-site, and paid internships to kickstart your career."
+        />
+        <link rel="canonical" href="https://freshersjobs.shop/internships" />
+      </Helmet>
+
       <div className="container">
         <h2 className="text-center mb-5 fw-bold display-6 title-animate" style={{ color: "#2c3e50" }}>
           🎓 Internship Opportunities

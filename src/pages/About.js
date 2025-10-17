@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 
 const teamMembers = [
   {
     name: "Chethan M P",
     role: "Founder",
     bio: "Passionate about helping fresh graduates find their dream jobs.",
-    img:"nan",
+    img: "https://via.placeholder.com/120", // Replace with actual image URL
     linkedin: "https://www.linkedin.com/in/chethan-m-p-15691236a",
-  }
-  
+  },
 ];
 
 export default function About() {
@@ -19,11 +19,20 @@ export default function About() {
   };
 
   return (
-    <div className="container my-5">
-      <div className="card shadow-sm border-0 p-4">
+    <div className="container my-5 fade-in">
+      <Helmet>
+        <title>About Us | FreshersJobs</title>
+        <link rel="canonical" href="https://freshersjobs.shop/about" />
+        <meta
+          name="description"
+          content="FreshersJobs is your trusted platform for fresher jobs, internships, and career resources. Learn about our mission, values, and team."
+        />
+      </Helmet>
+
+      <div className="card shadow-sm border-0 p-4 fade-in-up">
         <h2 className="fw-bold text-primary mb-3">About FreshersJobs</h2>
         <p className="text-muted" style={{ fontSize: "1.1rem", lineHeight: "1.7" }}>
-          Welcome ,to <strong>FreshersJobs</strong>, your trusted platform for
+          Welcome to <strong>FreshersJobs</strong>, your trusted platform for
           the latest job openings, internships, and career opportunities for
           students and recent graduates. We are committed to helping freshers
           build their careers by providing timely, verified, and high-quality
@@ -40,18 +49,10 @@ export default function About() {
 
         <h4 className="fw-semibold mt-4">✅ What We Offer</h4>
         <ul className="list-group list-group-flush mb-3">
-          <li className="list-group-item border-0">
-            🔹 Daily updates on <strong>fresher jobs & internships</strong>
-          </li>
-          <li className="list-group-item border-0">
-            🔹 Verified listings from trusted companies
-          </li>
-          <li className="list-group-item border-0">
-            🔹 Career resources, interview tips, and resume help
-          </li>
-          <li className="list-group-item border-0">
-            🔹 Easy navigation by categories, skills, and locations
-          </li>
+          <li className="list-group-item border-0">🔹 Daily updates on <strong>fresher jobs & internships</strong></li>
+          <li className="list-group-item border-0">🔹 Verified listings from trusted companies</li>
+          <li className="list-group-item border-0">🔹 Career resources, interview tips, and resume help</li>
+          <li className="list-group-item border-0">🔹 Easy navigation by categories, skills, and locations</li>
         </ul>
 
         <h4 className="fw-semibold mt-4">🤝 Why Choose Us?</h4>
@@ -145,6 +146,21 @@ export default function About() {
           background-color: #2980b9;
           color: white;
           border-color: #2980b9;
+        }
+        .fade-in { 
+          opacity: 0; 
+          animation: fadeIn 0.8s ease forwards; 
+        }
+        .fade-in-up { 
+          opacity: 0; 
+          transform: translateY(20px);
+          animation: fadeInUp 0.8s ease forwards; 
+        }
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>
