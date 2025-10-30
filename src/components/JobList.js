@@ -137,22 +137,7 @@ export default function JobList() {
                         justifyContent: "center",
                       }}
                     >
-                      <img
-                        src={
-                          job.img ||
-                          "https://via.placeholder.com/120x60?text=No+Image"
-                        }
-                        alt={job.company || "Company Logo"}
-                        loading="lazy"
-                        decoding="async"
-                        width="120"
-                        height="60"
-                        style={{
-                          maxHeight: "100%",
-                          maxWidth: "100%",
-                          objectFit: "contain",
-                        }}
-                      />
+                      {/* Removed the image */}
                     </div>
                     <div className="card-body d-flex flex-column flex-grow-1">
                       <h5 className="card-title fw-bold text-primary">

@@ -88,7 +88,7 @@ export default function JobDetails() {
 
           {job.img && (
             <div className="text-center mb-4">
-              <picture>
+              {/* <picture>
                 <source srcSet={getOptimizedImage(job.img)} type="image/webp" />
                 <img
                   src={job.img}
@@ -104,7 +104,7 @@ export default function JobDetails() {
                     boxShadow: "0 15px 30px rgba(52,73,94,0.2)",
                   }}
                 />
-              </picture>
+              </picture> */}
             </div>
           )}
 

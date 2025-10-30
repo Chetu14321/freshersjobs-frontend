@@ -196,7 +196,7 @@ const HomeComponent = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <picture>
+                  {/* <picture>
                     <source srcSet={getOptimizedImage(img)} type="image/webp" />
                     <img
                       src={img || "https://via.placeholder.com/120x60?text=No+Image"}
@@ -206,7 +206,7 @@ const HomeComponent = () => {
                       loading="lazy"
                       style={{ objectFit: "contain" }}
                     />
-                  </picture>
+                  </picture> */}
                 </div>
 
                 <div className="card-body text-center">
