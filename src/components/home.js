@@ -68,18 +68,18 @@ const HomeComponent = () => {
     return "#0d6efd";
   };
 
-  const getOptimizedImage = (url) => {
-    if (!url) return "https://via.placeholder.com/120x60?text=No+Image";
-    try {
-      const ext = url.split(".").pop().toLowerCase();
-      if (ext === "jpg" || ext === "jpeg" || ext === "png") {
-        return url.replace(/\.(jpg|jpeg|png)$/i, ".webp");
-      }
-      return url;
-    } catch {
-      return url;
-    }
-  };
+  // const getOptimizedImage = (url) => {
+  //   if (!url) return "https://via.placeholder.com/120x60?text=No+Image";
+  //   try {
+  //     const ext = url.split(".").pop().toLowerCase();
+  //     if (ext === "jpg" || ext === "jpeg" || ext === "png") {
+  //       return url.replace(/\.(jpg|jpeg|png)$/i, ".webp");
+  //     }
+  //     return url;
+  //   } catch {
+  //     return url;
+  //   }
+  // };
 
   return (
     <div className="container py-5">
