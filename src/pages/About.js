@@ -41,7 +41,7 @@ export default function About() {
 
         <h4 className="fw-semibold mt-4">🎯 Our Mission</h4>
         <p className="text-muted">
-          To bridge the gap between aspiring professionals and employers by
+          To bridge the gap between aspiring "professionals" and employers by
           making job hunting simpler, faster, and more transparent. We aim to
           empower fresh graduates with reliable job listings and career
           guidance.
