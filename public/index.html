@@ -17,40 +17,84 @@
     />
 
     <!-- ✅ Google Site Verification (required for AdSense approval) -->
-    <meta name="google-site-verification" content="PASTE_YOUR_VERIFICATION_CODE_HERE" />
+    
+    <meta name="google-adsense-account" content="ca-pub-3736460456527304">
 
     <!-- ✅ Apple Touch Icon -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/freshers.png" />
 
-    <!-- ✅ Optional: Manifest for PWA -->
+    <!-- ✅ Manifest for PWA -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <!-- ✅ Canonical URL -->
     <link rel="canonical" href="https://freshersjobs.shop" />
 
-    <!-- ✅ Preconnect Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- ================= Inline critical CSS (tiny) ================= -->
+    <!-- Keep only the minimal rules required for above-the-fold/initial paint -->
+    <style>
+      html, body { height: 100%; }
+      body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+      #root { min-height: 100vh; display: flex; flex-direction: column; }
+      header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; }
+      img[alt="site-logo"] { width: 48px; height: auto; display: block; }
+    </style>
 
-    <!-- ✅ Open Graph / Social Media -->
+    <!-- Preload likely LCP image (adjust if your true LCP is different) -->
+    <link rel="preload" as="image" href="%PUBLIC_URL%/freshers.png">
+
+    <!-- Preload main stylesheet and load it asynchronously (prevents render-blocking) -->
+    <!-- Replace the href with the exact build filename if your build generates a hashed CSS file -->
+    <link rel="preload" href="%PUBLIC_URL%/static/css/main.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="%PUBLIC_URL%/static/css/main.css"></noscript>
+
+    <!-- Open Graph / Social Media -->
     <meta property="og:title" content="Freshers Jobs & Internships in India | FreshersJobs.shop" />
     <meta property="og:description" content="Explore the latest jobs and internships for freshers in India. Get your career started with FreshersJobs.shop." />
     <meta property="og:image" content="%PUBLIC_URL%/freshers.png" />
     <meta property="og:url" content="https://freshersjobs.shop" />
     <meta property="og:type" content="website" />
 
-    <!-- ✅ Twitter Card (optional) -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Freshers Jobs & Internships in India | FreshersJobs.shop" />
     <meta name="twitter:description" content="Explore the latest jobs and internships for freshers in India. Get your career started with FreshersJobs.shop." />
     <meta name="twitter:image" content="%PUBLIC_URL%/freshers.png" />
 
-    <!-- ✅ SEO-friendly Title -->
+    <!-- Page title -->
     <title>Freshers Jobs & Internships in India | FreshersJobs.shop | Career Opportunities</title>
+
+    <!-- NOTE: removed Google Fonts preconnects flagged as unused.
+         If you use Google Fonts on first paint, prefer:
+         - self-hosting a subset .woff2 + font-display:swap, or
+         - preload the specific font file instead of preconnect.
+    -->
   </head>
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <!-- ========== Main JS bundle (deferred) ==========
+         If your bundler injects the script automatically (CRA/Vite typically do),
+         you don't need the script below. If you include it manually, ensure the
+         filename matches your build output (replace main.js with hashed file if any).
+    -->
+    <script src="%PUBLIC_URL%/static/js/main.js" defer></script>
+
+    <!-- ========== Defer non-critical third-party scripts (analytics, widgets) ==========
+         This snippet loads non-critical external scripts after load to avoid blocking page load.
+         Replace or add your analytics/chat script URLs inside the loader as needed.
+    -->
+    <script>
+      window.addEventListener('load', function () {
+        // Example pattern: lazy-load analytics (uncomment & replace src)
+        // const s = document.createElement('script');
+        // s.src = 'https://example-analytics.com/analytics.js';
+        // s.async = true;
+        // document.head.appendChild(s);
+
+        // If using gtag/GA, consider loading it here or use Google Tag Manager with a light-weight init.
+      });
+    </script>
   </body>
 </html>
