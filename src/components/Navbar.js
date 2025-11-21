@@ -22,16 +22,18 @@ export default function Navbar() {
     method: "GET",
     credentials: "include",
     mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    }
   })
     .then(res => res.json())
     .then(data => {
-      console.log("ME API:", data);
-      if (data?.user) {
-        setUser(data.user);
-      }
+      console.log("ME RESPONSE:", data);
+      if (data?.user) setUser(data.user);
     })
-    .catch(err => console.log("ME error:", err));
+    .catch(err => console.log("ME ERROR:", err));
 }, []);
+
 
 
   // LOGOUT USER
