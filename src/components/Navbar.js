@@ -18,16 +18,21 @@ export default function Navbar() {
 
   // GET USER ON PAGE LOAD (CHECK LOGIN)
   useEffect(() => {
-    fetch("https://freshersjobs-shop.onrender.com/api/me", {
-      credentials: "include",
+  fetch("https://freshersjobs-shop.onrender.com/api/me", {
+    method: "GET",
+    credentials: "include",
+    mode: "cors",
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("ME API:", data);
+      if (data?.user) {
+        setUser(data.user);
+      }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("USER DATA:", data);
-        if (data?.user) setUser(data.user);
-      })
-      .catch(() => {});
-  }, []);
+    .catch(err => console.log("ME error:", err));
+}, []);
+
 
   // LOGOUT USER
   const handleLogout = () => {
